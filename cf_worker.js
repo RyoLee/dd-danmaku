@@ -1,6 +1,17 @@
 const hostlist = { 'api.dandanplay.net': null };
 
 async function handleRequest(request) {
+    if (request.method === 'OPTIONS') {
+        return new Response(null, {
+            status: 204,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization, User-Agent',
+            },
+        });
+    }
+
     const urlObj = new URL(request.url);
     let url = urlObj.href.replace(urlObj.origin + '/cors/', '').trim();
     if (0 !== url.indexOf('https://') && 0 === url.indexOf('https:')) {
